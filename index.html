@@ -228,7 +228,7 @@ function renderHome(msg=''){
     <section class="gang">
       <h2>The gang</h2>
       <p class="muted">Everyone knows this much about everyone.</p>
-      <ul>${PUB.cast.map(c=>`<li><span class="n">${c.name}</span><span class="nick">“${c.nick}”</span>${c.optional?'<span class="opt">if they come</span>':''}<p>${c.bio}</p><p class="q">Quirk: ${c.quirk}</p></li>`).join('')}</ul>
+      <ul>${PUB.cast.map(c=>`<li><span class="n">${c.name}</span><span class="nick">“${c.nick}”</span>${c.optional && !['farhan','anika','alvan'].includes(c.id)?'<span class="opt">if they come</span>':''}<p>${c.bio}</p><p class="q">Quirk: ${c.quirk}</p></li>`).join('')}</ul>
     </section>`;
   document.getElementById('door').onsubmit = async e => {
     e.preventDefault();
@@ -490,7 +490,7 @@ function renderMaster(m, startTab=0){
       <h3>Full timeline</h3><ul class="tl">${m.solution.timeline.map(([t,x])=>`<li><span class="t">${t}</span><span>${x}</span></li>`).join('')}</ul>
       <h3>Tips for running it</h3><ul class="knows">${list(m.tips)}</ul>`,
     () => `<h2>Every player</h2><p class="muted">Tap a name to see their secret and what they know.</p>
-      ${m.players.map(p=>`<details class="card" style="margin-bottom:.6rem;padding:.9rem 1rem"><summary style="cursor:pointer;font-weight:700">${p.name} “${p.nick}”${p.id===m.killer?' <span style="color:var(--red)">· killer</span>':''}${p.optional?' <span class="muted" style="font-weight:400">· optional</span>':''}</summary>
+      ${m.players.map(p=>`<details class="card" style="margin-bottom:.6rem;padding:.9rem 1rem"><summary style="cursor:pointer;font-weight:700">${p.name} “${p.nick}”${p.id===m.killer?' <span style="color:var(--red)">· killer</span>':''}${p.optional && !['farhan','anika','alvan'].includes(p.id)?' <span class="muted" style="font-weight:400">· optional</span>':''}</summary>
         <div style="margin-top:.75rem"><p class="tiny" style="margin:0 0 .5rem">Code: <span style="font-family:var(--crt);font-size:1.2rem">${p.code}</span></p>
         <p><b>Quirk:</b> ${p.quirk}</p><div class="quote">${p.intro}</div>
         <h3>Secret</h3>${p.secret.startsWith('<p')?p.secret:`<p>${p.secret}</p>`}
@@ -504,7 +504,7 @@ function renderMaster(m, startTab=0){
     () => `<h2>What each place gives</h2><p class="muted">The killer is safe from traps; everyone else dies there.</p>
       ${m.locations.map(l=>`<details class="card" style="margin-bottom:.6rem;padding:.9rem 1rem"><summary style="cursor:pointer;font-weight:700">${l.icon} ${l.name}</summary><div style="margin-top:.75rem">${[0,1,2].map(r=>resultCell(r,l.id)).join('')}</div></details>`).join('')}`,
     () => `<h2>Codes</h2><p>Send each player only their own code.</p>
-      <ul class="tl">${m.players.map(p=>`<li style="grid-template-columns:1fr auto"><span>${p.name} “${p.nick}”${p.optional?' <span class="muted">(optional)</span>':''}</span><span class="t">${p.code}</span></li>`).join('')}</ul>
+      <ul class="tl">${m.players.map(p=>`<li style="grid-template-columns:1fr auto"><span>${p.name} “${p.nick}”${p.optional && !['farhan','anika','alvan'].includes(p.id)?' <span class="muted">(optional)</span>':''}</span><span class="t">${p.code}</span></li>`).join('')}</ul>
       <h3>Round codes</h3><ul class="tl">${m.roundWords.map((w,i)=>`<li style="grid-template-columns:1fr auto"><span>Round ${i+1}</span><span class="t">${w}</span></li>`).join('')}</ul>
       <p class="tiny" style="margin-top:1rem">To check what a player sees, log out and enter their code. Use “Start over on this phone” in their Notes tab to reset anything you tried.</p>`,
   ];
